@@ -121,18 +121,33 @@ FROM Orders o JOIN Customers c ON c.CustomerID = o.CustomerID JOIN [Order Detail
 GROUP BY c.ContactName
 
 --22.
-
+SELECT o.CustomerID, SUM(d.Quantity) AS TheCount
+FROM Orders o JOIN [Order Details] d on d.OrderID = o.OrderID
+GROUP BY o.CustomerID
+HAVING SUM(d.Quantity)>100
 
 --23.
-
+SELECT s.CompanyName, sh.CompanyName
+FROM Suppliers s CROSS JOIN Shippers sh
 
 --24. 
-
+SELECT o.OrderDate,p.ProductName
+FROM Orders o JOIN [Order Details] d ON o.OrderID = d.OrderID JOIN Products p ON p.ProductID = d.ProductID
+ORDER BY o.OrderDate 
 
 --25.
-
+SELECT e1.EmployeeID, e2.EmployeeID, e1.Title
+FROM Employees e1 JOIN Employees e2 ON e1.Title = e2.Title
+WHERE e1.EmployeeID < e2.EmployeeID 
 
 --26.
-
+SELECT *
+FROM Employees e
+WHERE e.ReportsTo > 2 AND e.Title LIKE '%Manager%'
 
 --27. 
+SELECT City, CompanyName, ContactName, 'Customer' AS Type
+FROM Customers
+UNION ALL
+SELECT City, CompanyName, ContactName, 'Supplier' AS Type
+FROM Suppliers
